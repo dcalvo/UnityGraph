@@ -3,6 +3,7 @@ using UnityEngine;
 public class Graph : MonoBehaviour {
     [SerializeField] private Transform pointPrefab;
     [SerializeField] [Range(10, 100)] private int resolution = 10;
+    [SerializeField] private FunctionLibrary.FunctionName function;
 
     private Transform[] points;
 
@@ -22,10 +23,11 @@ public class Graph : MonoBehaviour {
     }
 
     private void Update() {
+        FunctionLibrary.Function f = FunctionLibrary.GetFunction(function);
         float time = Time.time;
         foreach (Transform point in points) {
             Vector3 position = point.localPosition;
-            position.y = Mathf.Sin(Mathf.PI * (position.x + time));
+            position.y = f(position.x, time);
             point.localPosition = position;
         }
     }
